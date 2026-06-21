@@ -196,37 +196,78 @@ def predict_and_show(features: dict, header: str):
 
 
 # ---------------- Manual input form ----------------
-st.subheader("📝 Input Manual Nasabah")
+st.subheader("📝 Input Data Nasabah")
 with st.form("manual_form"):
-    a, b, c = st.columns(3)
-    with a:
+
+    # ── 1. Profil Nasabah ──────────────────────────────────────────────────
+    st.markdown("#### 👤 Profil Nasabah")
+    c1, c2, c3 = st.columns(3)
+    with c1:
         month = st.selectbox("Month", MONTHS)
+    with c2:
         age = st.number_input("Age", 18, 100, 35)
+    with c3:
         occupation = st.selectbox("Occupation", OCCUPATIONS)
-        annual_income = st.number_input("Annual Income", 0.0, 300000.0, 40000.0)
-        monthly_salary = st.number_input("Monthly Inhand Salary", 0.0, 30000.0, 3500.0)
+
+    st.divider()
+
+    # ── 2. Pendapatan & Pengeluaran ────────────────────────────────────────
+    st.markdown("#### 💰 Pendapatan & Pengeluaran")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        annual_income = st.number_input("Annual Income (USD)", 0.0, 300000.0, 40000.0)
+        monthly_salary = st.number_input("Monthly Inhand Salary (USD)", 0.0, 30000.0, 3500.0)
+    with c2:
+        total_emi = st.number_input("Total EMI per Month (USD)", 0.0, 5000.0, 70.0)
+        invested = st.number_input("Amount Invested Monthly (USD)", 0.0, 10000.0, 150.0)
+    with c3:
+        balance = st.number_input("Monthly Balance (USD)", 0.0, 2000.0, 350.0)
+
+    st.divider()
+
+    # ── 3. Akun & Pinjaman ────────────────────────────────────────────────
+    st.markdown("#### 🏦 Akun & Pinjaman")
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
         num_bank = st.number_input("Num Bank Accounts", 0, 20, 5)
+    with c2:
         num_card = st.number_input("Num Credit Card", 0, 20, 5)
-        interest = st.number_input("Interest Rate (%)", 0, 50, 14)
-    with b:
+    with c3:
         num_loan = st.number_input("Num of Loan", 0, 15, 3)
+    with c4:
         loan_type = st.selectbox("Type of Loan (primary)", LOAN_TYPES)
-        delay_due = st.number_input("Delay from Due Date (days)", 0, 100, 20)
-        num_delayed = st.number_input("Num of Delayed Payment", 0, 50, 12)
+
+    st.divider()
+
+    # ── 4. Riwayat Kredit ─────────────────────────────────────────────────
+    st.markdown("#### 📊 Riwayat Kredit")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        interest = st.number_input("Interest Rate (%)", 0, 50, 14)
+        outstanding = st.number_input("Outstanding Debt (USD)", 0.0, 5000.0, 1200.0)
+        util = st.number_input("Credit Utilization Ratio (%)", 0.0, 60.0, 32.0)
+    with c2:
+        hist_age = st.number_input("Credit History Age (months)", 0, 500, 220)
         changed_limit = st.number_input("Changed Credit Limit", -10.0, 50.0, 9.0)
         num_inquiries = st.number_input("Num Credit Inquiries", 0, 50, 6)
-        credit_mix = st.selectbox("Credit Mix", ["Bad", "Standard", "Good", "Unknown"])
-        outstanding = st.number_input("Outstanding Debt", 0.0, 5000.0, 1200.0)
-    with c:
-        util = st.number_input("Credit Utilization Ratio", 0.0, 60.0, 32.0)
-        hist_age = st.number_input("Credit History Age (months)", 0, 500, 220)
-        pay_min = st.selectbox("Payment of Min Amount", ["Yes", "No"])
-        total_emi = st.number_input("Total EMI per month", 0.0, 5000.0, 70.0)
-        invested = st.number_input("Amount Invested Monthly", 0.0, 10000.0, 150.0)
-        balance = st.number_input("Monthly Balance", 0.0, 2000.0, 350.0)
-        spending = st.selectbox("Spending Level", ["Low", "High"])
-        pay_size = st.selectbox("Payment Size", ["Small", "Medium", "Large"])
+    with c3:
+        credit_mix = st.radio("Credit Mix", ["Bad", "Standard", "Good", "Unknown"])
 
+    st.divider()
+
+    # ── 5. Perilaku Pembayaran ────────────────────────────────────────────
+    st.markdown("#### 💳 Perilaku Pembayaran")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        delay_due = st.number_input("Delay from Due Date (days)", 0, 100, 20)
+        num_delayed = st.number_input("Num of Delayed Payment", 0, 50, 12)
+    with c2:
+        pay_min = st.radio("Payment of Min Amount", ["Yes", "No"], horizontal=True)
+        spending = st.radio("Spending Level", ["Low", "High"], horizontal=True)
+    with c3:
+        pay_size = st.radio("Payment Size", ["Small", "Medium", "Large"], horizontal=True)
+
+    st.divider()
     submitted = st.form_submit_button("🔮 Prediksi Credit Score", use_container_width=True)
 
 if submitted:
@@ -242,4 +283,4 @@ if submitted:
         "Total_EMI_per_month": total_emi, "Amount_invested_monthly": invested,
         "Payment_Behaviour": f"{spending}_spent_{pay_size}_value_payments", "Monthly_Balance": balance,
     }
-    predict_and_show(features, "Hasil Prediksi (Input Manual)")
+    predict_and_show(features, "Hasil Prediksi")
