@@ -225,37 +225,27 @@ with st.form("manual_form"):
 
     st.divider()
 
-    # ── 3. Akun & Pinjaman ────────────────────────────────────────────────
-    st.markdown("#### 🏦 Akun & Pinjaman")
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        num_bank = st.number_input("Num Bank Accounts", 0, 20, 5)
-    with c2:
-        num_card = st.number_input("Num Credit Card", 0, 20, 5)
-    with c3:
-        num_loan = st.number_input("Num of Loan", 0, 15, 3)
-    with c4:
-        loan_type = st.selectbox("Type of Loan (primary)", LOAN_TYPES)
-
-    st.divider()
-
-    # ── 4. Riwayat Kredit ─────────────────────────────────────────────────
-    st.markdown("#### 📊 Riwayat Kredit")
+    # ── 3. Akun & Riwayat Kredit ──────────────────────────────────────────
+    st.markdown("#### 🏦 Akun & Riwayat Kredit")
     c1, c2, c3 = st.columns(3)
     with c1:
+        num_bank = st.number_input("Num Bank Accounts", 0, 20, 5)
+        num_card = st.number_input("Num Credit Card", 0, 20, 5)
+        num_loan = st.number_input("Num of Loan", 0, 15, 3)
+        loan_type = st.selectbox("Type of Loan (primary)", LOAN_TYPES)
+    with c2:
         interest = st.number_input("Interest Rate (%)", 0, 50, 14)
         outstanding = st.number_input("Outstanding Debt (USD)", 0.0, 5000.0, 1200.0)
         util = st.number_input("Credit Utilization Ratio (%)", 0.0, 60.0, 32.0)
-    with c2:
         hist_age = st.number_input("Credit History Age (months)", 0, 500, 220)
+    with c3:
         changed_limit = st.number_input("Changed Credit Limit", -10.0, 50.0, 9.0)
         num_inquiries = st.number_input("Num Credit Inquiries", 0, 50, 6)
-    with c3:
         credit_mix = st.radio("Credit Mix", ["Bad", "Standard", "Good", "Unknown"])
 
     st.divider()
 
-    # ── 5. Perilaku Pembayaran ────────────────────────────────────────────
+    # ── 4. Perilaku Pembayaran ────────────────────────────────────────────
     st.markdown("#### 💳 Perilaku Pembayaran")
     c1, c2, c3 = st.columns(3)
     with c1:
